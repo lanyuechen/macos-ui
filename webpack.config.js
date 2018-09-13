@@ -27,7 +27,8 @@ module.exports = {
   externals: {
     "react": "React",
     "react-dom": "ReactDOM",
-    "vue": "Vue"
+    "vue": "Vue",
+    "leancloud-storage": "AV"
   },
   resolve: {
     extensions: ['.js', '.vue']
