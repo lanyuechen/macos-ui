@@ -19,6 +19,19 @@ export default class World {
     ];
 
     this.init();
+
+    this.start();
+  }
+
+  start() {
+    this.interval = setInterval(() => {
+      this.tick();
+    }, 1000);
+  }
+
+  stop() {
+    clearInterval(this.interval);
+    this.interval = null;
   }
 
   init() {
@@ -28,17 +41,62 @@ export default class World {
       height: ${this.height}px;
     `;
     this.zr = zrender.init(this.dom);
+    this.container = new zrender.Group();
     this.bg = new zrender.Group();
     this.cells = new zrender.Group();
-    this.zr.add(this.bg);
-    this.zr.add(this.cells);
+    this.container.add(this.bg);
+    this.container.add(this.cells);
+    this.zr.add(this.container);
 
     this.initBg();
     this.drawCells();
 
-    this.interval = setInterval(() => {
-      this.tick();
-    }, 1000);
+    d3.select(this.dom).call(d3.zoom()
+      .scaleExtent([1 / 2, 8])
+      .on("zoom", () => {
+        this.zoomed();
+      })
+    );
+  }
+
+  zoomed() {
+    this.transform = d3.event.transform;
+    this.container.position = [this.transform.x, this.transform.y];
+    this.container.scale = [this.transform.k, this.transform.k];
+    this.container.dirty();
+    this.drawBg();
+  }
+
+  drawBg() {
+    this.bg.removeAll();
+    for (let i = 0; i < this.width; i += this.grid) {
+      for (let j = 0; j < this.height; j += this.grid) {
+        const offsetX = Math.floor(this.transform.x / this.grid) * this.grid;
+        this.bg.add(new zrender.Line({
+          shape: {
+            x1: i - offsetX,
+            y1: -this.transform.y,
+            x2: i - offsetX,
+            y2: this.height - this.transform.y
+          },
+          style: {
+            stroke: '#eee'
+          }
+        }));
+        const offsetY = Math.floor(this.transform.y / this.grid) * this.grid;
+        this.bg.add(new zrender.Line({
+          shape: {
+            x1: -this.transform.x,
+            y1: j - offsetY,
+            x2: this.width - this.transform.x,
+            y2: j - offsetY
+          },
+          style: {
+            stroke: '#eee'
+          }
+        }));
+      }
+    }
   }
 
   initBg() {
