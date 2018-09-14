@@ -6,27 +6,32 @@ export default class World {
   static DIE = -1;
   static KEEP = 0;
 
-  constructor() {
-    this.width = 600;
-    this.height = 400;
-    this.grid = 10;
-    this.data = [
-      new Cell(10, 10, Cell.ALIVE),
-      new Cell(11, 9, Cell.ALIVE),
-      new Cell(11, 10, Cell.ALIVE),
-      new Cell(12, 10, Cell.ALIVE),
-      new Cell(12, 11, Cell.ALIVE)
-    ];
+  constructor(props) {
+    this.width = props.width;
+    this.height = props.height;
+    this.grid = props.grid || 10;
+    this.speed = props.speed || 1;      //每秒迭代的次数,其实就是频率
+    this.onTick = props.onTick;
+
+    this.transform = {x: 0, y: 0, k: 1};
 
     this.init();
 
-    this.start();
+    this.setData(props.data || []);
+
+    this.tick();
+  }
+
+  setData(data) {
+    if (Array.isArray(data)) {
+      this.data = data.map(d => new Cell(d[0], d[1]))
+    }
   }
 
   start() {
     this.interval = setInterval(() => {
       this.tick();
-    }, 1000);
+    }, 1000 / this.speed);
   }
 
   stop() {
@@ -48,8 +53,7 @@ export default class World {
     this.container.add(this.cells);
     this.zr.add(this.container);
 
-    this.initBg();
-    this.drawCells();
+    this.drawBg();
 
     d3.select(this.dom).call(d3.zoom()
       .scaleExtent([1 / 2, 8])
@@ -99,37 +103,8 @@ export default class World {
     }
   }
 
-  initBg() {
-    for (let i = 0; i < this.width; i += this.grid) {
-      for (let j = 0; j < this.height; j += this.grid) {
-        this.bg.add(new zrender.Line({
-          shape: {
-            x1: i,
-            y1: 0,
-            x2: i,
-            y2: this.height
-          },
-          style: {
-            stroke: '#eee'
-          }
-        }));
-        this.bg.add(new zrender.Line({
-          shape: {
-            x1: 0,
-            y1: j,
-            x2: this.width,
-            y2: j
-          },
-          style: {
-            stroke: '#eee'
-          }
-        }));
-      }
-    }
-  }
-
   tick() {
-    console.log('tick');
+    this.onTick && this.onTick();
     //找出需要判断的区域
     const district = {};
     this.data.filter(d => d.stage === Cell.ALIVE).map(d => {

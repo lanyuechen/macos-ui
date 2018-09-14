@@ -7,10 +7,10 @@ export default class Cell {
   static ALIVE = 1;          //1：存活（只有处于存活状态的细胞才会影响环境）
   static AFTER_ALIVE = 2;    //2：即将死亡
 
-  constructor(x, y, live = Cell.PRE_ALIVE) {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.stage = live;
+    this.stage = Cell.PRE_ALIVE;
   }
 
   alive() {
