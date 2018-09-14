@@ -1,10 +1,8 @@
 import zrender from 'zrender';
 import Cell from './cell';
+import God from './god';
 
 export default class World {
-  static LIVE = 1;
-  static DIE = -1;
-  static KEEP = 0;
 
   constructor(props) {
     this.width = props.width;
@@ -15,17 +13,13 @@ export default class World {
 
     this.transform = {x: 0, y: 0, k: 1};
 
+    this.god = new God();
+
+    this.god.addLives(props.data);
+
     this.init();
 
-    this.setData(props.data || []);
-
     this.tick();
-  }
-
-  setData(data) {
-    if (Array.isArray(data)) {
-      this.data = data.map(d => new Cell(d[0], d[1]))
-    }
   }
 
   start() {
@@ -105,64 +99,13 @@ export default class World {
 
   tick() {
     this.onTick && this.onTick();
-    //找出需要判断的区域
-    const district = {};
-    this.data.filter(d => d.stage === Cell.ALIVE).map(d => {
-      for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j <= 1; j++) {
-          const key = `${d.x + i},${d.y + j}`;
-          if (!district[key]) {
-            district[key] = (i === 0 && j === 0) ? d : null;
-          }
-        }
-      }
-    });
-
-    //生命成长了一天,产生了些许奇妙的变化...
-    Object.keys(district).map(k => {
-      const [x, y] = k.split(',').map(n => parseInt(n));
-      const wtf = this.toBeOrNotToBe(x, y);
-      if (!district[k] && wtf === World.LIVE) {
-        this.data.push(new Cell(x, y));       //添加新生命
-      }
-      if (district[k] && wtf === World.DIE) {
-        district[k].die();        //杀死生命
-      }
-    });
-
-    //物竞天择,适者生存...
-    this.data = this.data.filter(d => {
-      if (d.stage !== Cell.AFTER_ALIVE) {   //即将活过来和本来就活着的
-        d.alive();
-        return true;
-      }
-    });
-
+    this.god.tick();
     this.drawCells();
-  }
-
-  //生存还是死亡
-  toBeOrNotToBe(x, y) {
-    const count = this.data.filter(d => {
-      return (
-        d.stage !== Cell.PRE_ALIVE &&
-        Math.abs(d.x - x) <= 1 &&
-        Math.abs(d.y - y) <= 1 &&
-        (d.x !== x || d.y !== y)
-      )
-    }).length;
-    if (count === 3) {
-      return World.LIVE;
-    } else if (count === 2) {
-      return World.KEEP;
-    } else {
-      return World.DIE;
-    }
   }
 
   drawCells() {
     this.cells.removeAll();
-    this.data.filter(d => d.stage === Cell.ALIVE).map(d => {
+    this.god.cells.map(d => {
       this.drawCell(d);
     });
   }

@@ -19,7 +19,7 @@ export default class Game extends Component {
       ],
       onTick: this.handleTick
     });
-    //this.world.start();
+    this.world.start();
     this.refs.container.appendChild(this.world.dom);
   }
 
