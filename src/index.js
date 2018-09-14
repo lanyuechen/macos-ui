@@ -5,6 +5,7 @@ import View from './components/vue';
 
 import DemoReact from './components/demo';
 import DemoVue from './vue-components/demo/index.vue';
+import Game from './game-of-life';
 
 import Store from './lib/store';
 
@@ -18,6 +19,7 @@ class App extends Component {
       <div>
         <DemoReact />
         <View vue={DemoVue} />
+        <Game />
       </div>
     )
   }

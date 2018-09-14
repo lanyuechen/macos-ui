@@ -28,6 +28,7 @@ module.exports = {
     "react": "React",
     "react-dom": "ReactDOM",
     "vue": "Vue",
+    "zrender": "zrender",
     "leancloud-storage": "AV"
   },
   resolve: {
