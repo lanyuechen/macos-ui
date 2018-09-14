@@ -1,5 +1,4 @@
 import zrender from 'zrender';
-import Cell from './cell';
 import God from './god';
 
 export default class World {
