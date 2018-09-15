@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.scss';
 
-export default class Modal extends Component {
+export default class extends Component {
   constructor(props) {
     super(props);
   }
@@ -23,9 +23,9 @@ export default class Modal extends Component {
     const { name, children, size } = this.props;
 
     return (
-      <div className="modal">
-        <div className={`modal-container modal-${size || 'md'}`}>
-          <div className="modal-header">
+      <div className="dialog">
+        <div className={`dialog-container dialog-${size || 'md'}`}>
+          <div className="dialog-header">
             <div className="btns">
               <a onClick={this.handleCancel}>
                 <svg x="0px" y="0px" width="10px" height="10px" viewBox="0 -2 20 20">
@@ -48,7 +48,7 @@ export default class Modal extends Component {
               {name}
             </div>
           </div>
-          <div className="modal-body">
+          <div className="dialog-body">
             {children}
           </div>
         </div>
