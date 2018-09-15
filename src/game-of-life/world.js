@@ -66,27 +66,29 @@ export default class World {
 
   drawBg() {
     this.bg.removeAll();
-    for (let i = 0; i < this.width; i += this.grid) {
-      for (let j = 0; j < this.height; j += this.grid) {
-        const offsetX = Math.floor(this.transform.x / this.grid) * this.grid;
+    const grid = this.grid * this.transform.k;
+    const step = Math.floor(8 / grid) + 1;
+    for (let i = 0; i < this.width / grid; i += step) {
+      for (let j = 0; j < this.height / grid; j += step) {
+        const offsetX = Math.floor(this.transform.x / grid);
         this.bg.add(new zrender.Line({
           shape: {
-            x1: i - offsetX,
-            y1: -this.transform.y,
-            x2: i - offsetX,
-            y2: this.height - this.transform.y
+            x1: (i - offsetX) * this.grid,
+            y1: -this.transform.y / this.transform.k,
+            x2: (i - offsetX) * this.grid,
+            y2: (this.height - this.transform.y) / this.transform.k
           },
           style: {
             stroke: '#eee'
           }
         }));
-        const offsetY = Math.floor(this.transform.y / this.grid) * this.grid;
+        const offsetY = Math.floor(this.transform.y / grid);
         this.bg.add(new zrender.Line({
           shape: {
-            x1: -this.transform.x,
-            y1: j - offsetY,
-            x2: this.width - this.transform.x,
-            y2: j - offsetY
+            x1: -this.transform.x / this.transform.k,
+            y1: (j - offsetY) * this.grid,
+            x2: (this.width - this.transform.x) / this.transform.k,
+            y2: (j - offsetY) * this.grid
           },
           style: {
             stroke: '#eee'
@@ -109,6 +111,7 @@ export default class World {
     });
   }
 
+  //todo 只绘制视口内部内容
   drawCell(cell) {
     this.cells.add(new zrender.Rect({
       shape: {
