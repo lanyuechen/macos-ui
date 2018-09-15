@@ -7,6 +7,10 @@ export default class Dock extends Component {
     super(props);
   }
 
+  handleClick(d) {
+    this.props.onClick && this.props.onClick(d);
+  }
+
   render() {
     const { data } = this.props;
 
@@ -16,7 +20,7 @@ export default class Dock extends Component {
           {data.map(d => (
             <li key={d.key}>
               <span>{d.name}</span>
-              <a>
+              <a onClick={() => this.handleClick(d)}>
                 <img src={`public/img/dock/${d.key}.png`} />
               </a>
             </li>
