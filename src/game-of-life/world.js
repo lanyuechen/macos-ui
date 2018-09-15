@@ -111,8 +111,16 @@ export default class World {
     });
   }
 
-  //todo 只绘制视口内部内容
   drawCell(cell) {
+    const grid = this.grid * this.transform.k;
+    if (
+      cell.x * grid + this.transform.x > this.width ||
+      cell.x * grid + this.transform.x < 0 ||
+      cell.y * grid + this.transform.y > this.height ||
+      cell.y * grid + this.transform.y < 0
+    ) {
+      return;
+    }
     this.cells.add(new zrender.Rect({
       shape: {
         x: cell.x * this.grid,
