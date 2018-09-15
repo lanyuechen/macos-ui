@@ -49,7 +49,7 @@ export default class World {
     this.drawBg();
 
     d3.select(this.dom).call(d3.zoom()
-      .scaleExtent([1 / 2, 8])
+      .scaleExtent([0.1, 10])
       .on("zoom", () => {
         this.zoomed();
       })

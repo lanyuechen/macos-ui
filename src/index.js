@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import View from './components/vue';
+import './style.scss';
 
-import DemoReact from './components/demo';
-import DemoVue from './vue-components/demo/index.vue';
-import Game from './game-of-life';
-
-import Store from './lib/store';
+import Desktop from './views/desktop';
 
 class App extends Component {
   constructor(props) {
@@ -16,10 +12,8 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <DemoReact />
-        <View vue={DemoVue} />
-        <Game />
+      <div style={{width: '100%', height: '100%'}}>
+        <Desktop />
       </div>
     )
   }
