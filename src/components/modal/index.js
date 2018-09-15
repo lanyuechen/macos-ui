@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 
 import Modal from './modal';
 
-function dialog(config) {
+export default function(config) {
   const div = document.createElement('div');
   document.body.appendChild(div);
 
@@ -22,9 +22,7 @@ function dialog(config) {
     <Modal
       onCancel={close}
     >
-      <div className="launchpad">
-
-      </div>
+      {config.content}
     </Modal>
   ), div);
 
@@ -32,5 +30,3 @@ function dialog(config) {
     destroy: close
   };
 }
-
-export default dialog;

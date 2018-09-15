@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.scss';
 
-export default class extends Component {
+export default class Dialog extends Component {
   constructor(props) {
     super(props);
   }

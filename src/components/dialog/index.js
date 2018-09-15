@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Modal from './modal';
+import Dialog from './dialog';
 
-function dialog(config) {
+export default function(config) {
   const div = document.createElement('div');
   document.body.appendChild(div);
 
@@ -17,18 +17,16 @@ function dialog(config) {
   }
 
   ReactDOM.render((
-    <Modal
+    <Dialog
       name="Finder"
       size="md"
       onCancel={close}
     >
       {config.content}
-    </Modal>
+    </Dialog>
   ), div);
 
   return {
     destroy: close
   };
 }
-
-export default dialog;

@@ -1,0 +1,41 @@
+.launchpad {
+  .search {
+    margin-top: 25px;
+    text-align: center;
+    input {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.8);
+      border-radius: 2px;
+      width: 250px;
+      height: 25px;
+      line-height: 25px;
+      text-indent: 25px;
+      &::-webkit-input-placeholder {
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      position: relative;
+      float: left;
+      margin: 20px;
+      a {
+        cursor: pointer;
+        img {
+          width: 64px;
+        }
+      }
+      span {
+        display: block;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+      }
+    }
+  }
+}
