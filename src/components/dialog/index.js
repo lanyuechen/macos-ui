@@ -19,7 +19,6 @@ export default function(config) {
   ReactDOM.render((
     <Dialog
       name="Finder"
-      size="md"
       onCancel={close}
     >
       {config.content}

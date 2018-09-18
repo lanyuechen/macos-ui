@@ -1,0 +1,30 @@
+[
+  {
+    "key": "finder",
+    "name": "Finder"
+  },
+  {
+    "key": "chrome",
+    "name": "Chrome"
+  },
+  {
+    "key": "launchpad",
+    "name": "Launchpad"
+  },
+  {
+    "key": "preference",
+    "name": "Preference"
+  },
+  {
+    "key": "itunes",
+    "name": "Itunes"
+  },
+  {
+    "key": "siri",
+    "name": "Siri"
+  },
+  {
+    "key": "app-store",
+    "name": "App Store"
+  }
+]

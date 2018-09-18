@@ -2,9 +2,31 @@ import React, { Component } from 'react';
 
 import './style.scss';
 
+import Drag from '../../lib/drag';
+
 export default class Dialog extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      x: window.innerWidth / 4,
+      y: window.innerHeight / 4,
+      width: window.innerWidth / 2,
+      height: window.innerHeight / 2
+    }
+  }
+
+  componentDidMount() {
+    const { x, y } = this.state;
+
+    new Drag({
+      dom: this.refs['drag-handler'],
+      onDrag: (dx, dy) => {
+        this.setState({
+          x: x + dx,
+          y: y + dy
+        });
+      }
+    })
   }
 
   handleCancel = () => {
@@ -12,20 +34,26 @@ export default class Dialog extends Component {
   };
 
   handleMin = () => {
-    this.props.onMin && this.props.onMin();
+    console.log('最小化')
   };
 
   handleMax = () => {
-    this.props.onMax && this.props.onMax();
+    this.setState({
+      x: 0,
+      y: 0,
+      width: window.innerWidth,
+      height: window.innerHeight
+    })
   };
 
   render() {
-    const { name, children, size } = this.props;
+    const { name, children } = this.props;
+    const { x, y, width, height } = this.state;
 
     return (
       <div className="dialog">
-        <div className={`dialog-container dialog-${size || 'md'}`}>
-          <div className="dialog-header">
+        <div className="dialog-container" style={{left: x, top: y, width, height}}>
+          <div className="dialog-header" ref="drag-handler">
             <div className="btns">
               <a onClick={this.handleCancel}>
                 <svg x="0px" y="0px" width="10px" height="10px" viewBox="0 -2 20 20">

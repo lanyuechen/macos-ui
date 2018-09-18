@@ -33,7 +33,13 @@ module.exports = {
     "leancloud-storage": "AV"
   },
   resolve: {
-    extensions: ['.js', '.vue']
+    extensions: ['.js', '.vue'],
+    alias: {
+      components: path.resolve(__dirname, 'src/components'),
+      lib: path.resolve(__dirname, 'src/lib'),
+      option: path.resolve(__dirname, 'src/option'),
+      app: path.resolve(__dirname, 'src/app')
+    }
   },
   module: {
     rules: [
