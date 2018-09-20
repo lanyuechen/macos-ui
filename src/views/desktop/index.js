@@ -14,6 +14,8 @@ import modal from 'components/modal';
 
 import apps from 'option/apps.json';
 
+import Fs from 'components/fs';
+
 export default class Desktop extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +37,9 @@ export default class Desktop extends Component {
 
     return (
       <div className="desktop">
-        <Game />
+        <Fs path="/Users/lanyuechen/Desktop" />
+
+        {false && <Game />}
 
         <div className="dock-container">
           <Dock data={apps} onClick={this.handleClick} />

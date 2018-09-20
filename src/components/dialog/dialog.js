@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.scss';
 
-import Drag from '../../lib/drag';
+import Drag from 'lib/drag';
 
 export default class Dialog extends Component {
   static defaultProps = {
@@ -26,21 +26,12 @@ export default class Dialog extends Component {
     new Drag({
       dom: this.refs['drag-handler'],
       onDrag: (dx, dy) => {
-        this.rect = {
+        this.resize({
           x: this.rect.x + dx,
-          y: this.rect.y + dy,
-          width: this.rect.width,
-          height: this.rect.height
-        };
-
-        this.refs.container.style.cssText = `
-          left: ${this.rect.x}px;
-          top: ${this.rect.y}px;
-          width: ${this.rect.width}px;
-          height: ${this.rect.height}px;
-        `;
+          y: this.rect.y + dy
+        });
       }
-    })
+    });
   }
 
   handleCancel = () => {
@@ -52,13 +43,23 @@ export default class Dialog extends Component {
   };
 
   handleMax = () => {
-    this.setState({
+    this.resize({
       x: 0,
       y: 0,
       width: window.innerWidth,
       height: window.innerHeight
-    })
+    });
   };
+
+  resize(rect) {
+    this.rect = { ...this.rect, ...rect };
+    this.refs.container.style.cssText = `
+      left: ${this.rect.x}px;
+      top: ${this.rect.y}px;
+      width: ${this.rect.width}px;
+      height: ${this.rect.height}px;
+    `;
+  }
 
   render() {
     const { name, children } = this.props;

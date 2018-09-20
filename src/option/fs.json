@@ -1,0 +1,27 @@
+{
+  "path": "/",
+  "children": [
+    {
+      "path": "Users",
+      "children": [
+        {
+          "path": "lanyuechen",
+          "children": [
+            {
+              "path": "Desktop",
+              "children": [
+                {
+                  "name": "Chrome",
+                  "icon": "public/img/icon/chrome.png"
+                },
+                {
+                  "name": "test2"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+.fs {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  .fs-item {
+    pointer-events: all;
+    position: absolute;
+    padding: 15px;
+    a {
+      display: block;
+      img {
+        width: 60px;
+        display: block;
+        pointer-events: none;
+      }
+      label {
+        color: #fff;
+        display: block;
+        margin-top: 5px;
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+}

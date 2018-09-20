@@ -9,7 +9,10 @@ export default function(config) {
   const div = document.createElement('div');
   document.body.appendChild(div);
 
+  document.getElementById('app').style.filter = 'blur(10px)';
+
   function close(...args) {
+    document.getElementById('app').style.filter = 'none';
     if (ReactDOM.unmountComponentAtNode(div) && div.parentNode) {
       div.parentNode.removeChild(div);
     }
