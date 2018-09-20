@@ -5,26 +5,40 @@ import './style.scss';
 import Drag from '../../lib/drag';
 
 export default class Dialog extends Component {
+  static defaultProps = {
+    x: window.innerWidth / 4,
+    y: window.innerHeight / 4,
+    width: window.innerWidth / 2,
+    height: window.innerHeight / 2
+  };
+
   constructor(props) {
     super(props);
-    this.state = {
-      x: window.innerWidth / 4,
-      y: window.innerHeight / 4,
-      width: window.innerWidth / 2,
-      height: window.innerHeight / 2
+    this.rect = {
+      x: props.x,
+      y: props.y,
+      width: props.width,
+      height: props.height
     }
   }
 
   componentDidMount() {
-    const { x, y } = this.state;
-
     new Drag({
       dom: this.refs['drag-handler'],
       onDrag: (dx, dy) => {
-        this.setState({
-          x: x + dx,
-          y: y + dy
-        });
+        this.rect = {
+          x: this.rect.x + dx,
+          y: this.rect.y + dy,
+          width: this.rect.width,
+          height: this.rect.height
+        };
+
+        this.refs.container.style.cssText = `
+          left: ${this.rect.x}px;
+          top: ${this.rect.y}px;
+          width: ${this.rect.width}px;
+          height: ${this.rect.height}px;
+        `;
       }
     })
   }
@@ -48,11 +62,11 @@ export default class Dialog extends Component {
 
   render() {
     const { name, children } = this.props;
-    const { x, y, width, height } = this.state;
+    const { x, y, width, height } = this.rect;
 
     return (
       <div className="dialog">
-        <div className="dialog-container" style={{left: x, top: y, width, height}}>
+        <div className="dialog-container" ref="container" style={{left: x, top: y, width, height}}>
           <div className="dialog-header" ref="drag-handler">
             <div className="btns">
               <a onClick={this.handleCancel}>
