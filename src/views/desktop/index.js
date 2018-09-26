@@ -5,6 +5,7 @@ import './style.scss';
 import Dock from 'components/dock';
 
 import Game from 'app/game-of-life';
+import JsView from 'app/js-view';
 
 import Finder from 'components/finder';
 import dialog from 'components/dialog';
@@ -37,13 +38,17 @@ export default class Desktop extends Component {
 
     return (
       <div className="desktop">
-        <Fs path="/Users/lanyuechen/Desktop" />
+        {false && <Fs path="/Users/lanyuechen/Desktop" />}
 
         {false && <Game />}
 
-        <div className="dock-container">
-          <Dock data={apps} onClick={this.handleClick} />
-        </div>
+        <JsView />
+
+        {false && (
+          <div className="dock-container">
+            <Dock data={apps} onClick={this.handleClick} />
+          </div>
+        )}
       </div>
     )
   }

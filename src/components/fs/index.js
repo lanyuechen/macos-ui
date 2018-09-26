@@ -48,7 +48,7 @@ export default class Fs extends Component {
             top: ${f.y}px;
           `;
         }
-      })
+      });
     });
   }
 
