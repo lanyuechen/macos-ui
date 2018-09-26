@@ -5,6 +5,8 @@ import M from './module';
 import { DragSource, DropTarget } from 'lib/dnd';
 import Drag from 'lib/drag';
 
+import Brick from './brick';
+
 export default class JsView extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +21,7 @@ export default class JsView extends Component {
     const x = e.pageX;
     const y = e.pageY;
     this.modules.push(new M({
-      x: x - 150,
+      x,
       y,
       onDomChange: (dom, m) => {
         new Drag({
@@ -27,7 +29,7 @@ export default class JsView extends Component {
           onDrag: (dx, dy) => {
             m.x = m.x + dx;
             m.y = m.y + dy;
-            dom.setAttribute('transform', `translate(${m.x - m.width / 2}, ${m.y - m.height / 2})`);
+            this.forceUpdate();
           }
         });
       }
@@ -35,8 +37,18 @@ export default class JsView extends Component {
     this.forceUpdate();
   };
 
-  handleLineStart(d) {
-    console.log('***', d)
+  handleLineStart = (d) => {
+    if (this.currentInput) {
+      d.addInput(this.currentInput);
+      this.currentInput = null;
+      this.forceUpdate();
+    } else {
+      this.currentInput = d;
+    }
+  };
+
+  handleZoom(d) {
+    console.log('===', d)
   }
 
   render() {
@@ -55,34 +67,29 @@ export default class JsView extends Component {
           {DropTarget(['FUNCTION'], {
             onDrop: this.handleDrop
           })(
-            <div style={{width: '100%',height: '100%'}}>
-              <svg>
-                <g className="lines">
-                  {modules.map(d => (
-                    <g key={d.id}>
-                      {d.input.map((dd, j) => (
-                        <g key={j}>
-                          <path d={`M${dd.x} ${dd.y} L${d.x} ${d.y}`} />
-                        </g>
-                      ))}
-                    </g>
-                  ))}
-                </g>
-                <g className="modules">
-                  {modules.map((d, i) => (
-                    <g
-                      key={d.id}
-                      ref={dom => d.setDom(dom)}
-                      transform={`translate(${d.x - d.width / 2}, ${d.y - d.height / 2})`}
-                      onClick={() => this.handleLineStart(d)}
-                    >
-                      <rect width={d.width} height={d.height} />
-                      <text x={d.width / 2} y={d.height / 2}>ƒ(x)</text>
-                    </g>
-                  ))}
-                </g>
-              </svg>
-            </div>
+            <svg>
+              <g className="lines">
+                {modules.map(d => (
+                  <g key={d.id}>
+                    {d.input.map((dd, j) => (
+                      <g key={j}>
+                        <path d={`M${dd.x} ${dd.y} L${d.x} ${d.y}`} />
+                      </g>
+                    ))}
+                  </g>
+                ))}
+              </g>
+              <g className="modules">
+                {modules.map((d, i) => (
+                  <Brick
+                    key={d.id}
+                    module={d}
+                    onLineStart={this.handleLineStart}
+                    onZoom={this.handleZoom}
+                  />
+                ))}
+              </g>
+            </svg>
           )}
         </div>
       </div>

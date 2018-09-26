@@ -1,0 +1,31 @@
+.brick {
+  .io-area {
+    cursor: crosshair;
+  }
+  .zoom-area {
+    rect {
+      &:nth-child(1) {
+        cursor: nw-resize;
+      }
+      &:nth-child(2) {
+        cursor: ne-resize;
+      }
+      &:nth-child(3) {
+        cursor: se-resize;
+      }
+      &:nth-child(4) {
+        cursor: sw-resize;
+      }
+    }
+  }
+  rect {
+    fill: #fff;
+    stroke: #999;
+    stroke-width: 1px;
+  }
+  text {
+    fill: #666;
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+}
