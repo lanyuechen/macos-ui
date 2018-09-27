@@ -24,7 +24,7 @@ export default class Editor extends Component {
           <button onClick={this.handleConfirm}>确定</button>
         </div>
         <div ref="editor" style={{width: '100%', height: '100%'}}>
-
+          {this.props.children}
         </div>
       </div>
     )

@@ -28,7 +28,9 @@ export default class Brick extends Component {
     this.modal = modal({
       content: (
         <div style={{width: '80%', height: '80%', margin: '10%'}}>
-          <Editor onConfirm={this.handleConfirm} />
+          <Editor onConfirm={this.handleConfirm}>
+            {this.props.module.func.toString()}
+          </Editor>
         </div>
       )
     })
