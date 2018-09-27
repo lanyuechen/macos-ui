@@ -2,12 +2,25 @@ import React, { Component } from 'react';
 
 import './style.scss';
 
+import Drag from 'lib/drag';
+
 const PADDING = 3;
 
 export default class Brick extends Component {
   constructor(props) {
     super(props);
   }
+
+  handleDrag = (dom, m) => {
+    new Drag({
+      dom,
+      onDrag: (dx, dy) => {
+        m.x = m.x + dx;
+        m.y = m.y + dy;
+        this.forceUpdate();
+      }
+    });
+  };
 
   render() {
     const { module: d, onLineStart, onZoom } = this.props;
@@ -32,9 +45,9 @@ export default class Brick extends Component {
           <rect x={-PADDING} y={d.height} width={PADDING} height={PADDING} />
         </g>
 
-        <g ref={dom => d.setDom(dom)}>
+        <g ref={dom => d.setDom(dom, this.handleDrag)}>
           <rect width={d.width} height={d.height} />
-          <text x={d.width / 2} y={d.height / 2}>ƒ(x)</text>
+          <text x={d.width / 2} y={d.height / 2}>{d.name}</text>
         </g>
       </g>
     )

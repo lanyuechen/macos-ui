@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import './style.scss';
 
-import M from './module';
 import { DragSource, DropTarget } from 'lib/dnd';
-import Drag from 'lib/drag';
 
 import Brick from './brick';
+import M, { TYPE_VIEW } from './module/default';
+import View from './module/view';
 
 export default class JsView extends Component {
   constructor(props) {
     super(props);
     this.init();
+  }
+
+  componentDidMount() {
+    setInterval(() => {
+      this.tick();
+    }, 2000);
   }
 
   init() {
@@ -20,20 +26,11 @@ export default class JsView extends Component {
   handleDrop = (data, e) => {
     const x = e.pageX;
     const y = e.pageY;
-    this.modules.push(new M({
-      x,
-      y,
-      onDomChange: (dom, m) => {
-        new Drag({
-          dom,
-          onDrag: (dx, dy) => {
-            m.x = m.x + dx;
-            m.y = m.y + dy;
-            this.forceUpdate();
-          }
-        });
-      }
-    }));
+    if (data.type === TYPE_VIEW) {
+      this.modules.push(new View({x, y}));
+    } else {
+      this.modules.push(new M({x, y}));
+    }
     this.forceUpdate();
   };
 
@@ -51,20 +48,34 @@ export default class JsView extends Component {
     console.log('===', d)
   }
 
+  getViews(modules) {
+    return modules.filter(d => d.type === TYPE_VIEW);
+  }
+
+  tick() {
+    const views = this.getViews(this.modules);
+    if (!views.length) {
+      return;
+    }
+    //todo 目前暂时支持单输出,后期添加多输出支持
+    const view = views[0];
+    view.output();
+  }
+
   render() {
     const { modules } = this;
 
     return (
       <div className="js-view">
         <div className="sidebar">
-          {DragSource('FUNCTION', {})(
+          {M.TYPES.map(d => DragSource(d.key, d)(
             <div className="module">
-              ƒ(x)
+              {d.name}
             </div>
-          )}
+          ))}
         </div>
         <div className="content">
-          {DropTarget(['FUNCTION'], {
+          {DropTarget(M.TYPES.map(d => d.key), {
             onDrop: this.handleDrop
           })(
             <svg>
