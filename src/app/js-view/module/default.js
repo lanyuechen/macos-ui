@@ -19,7 +19,7 @@ export default class M {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.func = FUNC[func] || func || function(data){return data};
+    this.func = FUNC[func] || func;
     this.name = M.TYPES.find(d => d.key === type).name;
     this.type = type;
   }
@@ -55,6 +55,6 @@ export default class M {
   }
 
   output() {
-    return this.func(...this.input.map(d => d.output()));
+    return this.func && this.func(...this.input.map(d => d.output()));
   }
 }

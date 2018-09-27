@@ -23,11 +23,12 @@ export default class Brick extends Component {
   };
 
   handleEdit = () => {
+    const { module } = this.props;
     this.modal = modal({
       content: (
         <div style={{width: '80%', height: '80%', margin: '10%'}}>
           <Editor onConfirm={this.handleConfirm}>
-            {this.props.module.func.toString()}
+            {module.func && module.func.toString()}
           </Editor>
         </div>
       )

@@ -19,6 +19,10 @@
       margin: 10px auto;
       cursor: pointer;
       background: #fff;
+      color: #666;
+      &:hover {
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+      }
     }
   }
   .content {

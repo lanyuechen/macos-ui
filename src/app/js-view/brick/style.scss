@@ -27,5 +27,8 @@
     fill: #666;
     text-anchor: middle;
     dominant-baseline: middle;
+    &:hover {
+      fill: #000
+    }
   }
 }
