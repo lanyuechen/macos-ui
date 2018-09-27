@@ -17,6 +17,8 @@ import apps from 'option/apps.json';
 
 import Fs from 'components/fs';
 
+import Slider from "react-slick";
+
 export default class Desktop extends Component {
   constructor(props) {
     super(props);
@@ -35,21 +37,25 @@ export default class Desktop extends Component {
   }
 
   render() {
-
     return (
-      <div className="desktop">
-        {false && <Fs path="/Users/lanyuechen/Desktop" />}
+      <Slider className="desktop-group">
+        <div className="desktop">
+          <Fs path="/Users/lanyuechen/Desktop" />
 
-        {false && <Game />}
-
-        <JsView />
-
-        {false && (
           <div className="dock-container">
             <Dock data={apps} onClick={this.handleClick} />
           </div>
-        )}
-      </div>
+        </div>
+
+        <div className="desktop">
+          <JsView />
+        </div>
+
+        <div className="desktop">
+          <Game />
+        </div>
+
+      </Slider>
     )
   }
 }
