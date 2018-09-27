@@ -14,7 +14,6 @@ export default class Brick extends Component {
     return (
       <g
         className="brick"
-        ref={dom => d.setDom(dom)}
         transform={`translate(${d.x - d.width / 2}, ${d.y - d.height / 2})`}
       >
         {/* 牵引线触发按钮 */}
@@ -33,8 +32,10 @@ export default class Brick extends Component {
           <rect x={-PADDING} y={d.height} width={PADDING} height={PADDING} />
         </g>
 
-        <rect width={d.width} height={d.height} />
-        <text x={d.width / 2} y={d.height / 2}>ƒ(x)</text>
+        <g ref={dom => d.setDom(dom)}>
+          <rect width={d.width} height={d.height} />
+          <text x={d.width / 2} y={d.height / 2}>ƒ(x)</text>
+        </g>
       </g>
     )
   }
