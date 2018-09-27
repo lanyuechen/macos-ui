@@ -44,6 +44,16 @@ export default class M {
     }
   }
 
+  setFunc(func) {
+    if (!func) {
+      return;
+    } else if (typeof(func) === 'function') {
+      this.func = func;
+    } else if (typeof(func) === 'string') {
+      eval(`this.func = ${func}`);
+    }
+  }
+
   output() {
     return this.func(...this.input.map(d => d.output()));
   }

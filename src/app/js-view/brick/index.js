@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import './style.scss';
 
 import Drag from 'lib/drag';
+import modal from 'components/modal';
+import Editor from 'app/editor';
 
 const PADDING = 3;
 
@@ -20,6 +22,22 @@ export default class Brick extends Component {
         this.forceUpdate();
       }
     });
+  };
+
+  handleEdit = () => {
+    this.modal = modal({
+      content: (
+        <div style={{width: '80%', height: '80%', margin: '10%'}}>
+          <Editor onConfirm={this.handleConfirm} />
+        </div>
+      )
+    })
+  };
+
+  handleConfirm = (func) => {
+    this.props.module.setFunc(func);
+    this.modal.destroy();
+    this.modal = null;
   };
 
   render() {
@@ -47,7 +65,7 @@ export default class Brick extends Component {
 
         <g ref={dom => d.setDom(dom, this.handleDrag)}>
           <rect width={d.width} height={d.height} />
-          <text x={d.width / 2} y={d.height / 2}>{d.name}</text>
+          <text x={d.width / 2} y={d.height / 2} onClick={this.handleEdit}>{d.name}</text>
         </g>
       </g>
     )
