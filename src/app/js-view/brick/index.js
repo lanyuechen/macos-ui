@@ -6,7 +6,7 @@ import Drag from 'lib/drag';
 import modal from 'components/modal';
 import Editor from 'app/editor';
 
-const PADDING = 3;
+const PADDING = 5;
 
 export default class Brick extends Component {
   constructor(props) {
@@ -17,9 +17,7 @@ export default class Brick extends Component {
     new Drag({
       dom,
       onDrag: (dx, dy) => {
-        m.x = m.x + dx;
-        m.y = m.y + dy;
-        this.forceUpdate();
+        this.props.onDrag && this.props.onDrag(m, dx, dy);   //提升到父组件是为了渲染块位置的时候同时渲染线
       }
     });
   };
@@ -67,7 +65,7 @@ export default class Brick extends Component {
 
         <g ref={dom => d.setDom(dom, this.handleDrag)}>
           <rect width={d.width} height={d.height} />
-          <text x={d.width / 2} y={d.height / 2} onClick={this.handleEdit}>{d.name}</text>
+          <text x={d.width / 2} y={d.height / 2} onDoubleClick={this.handleEdit}>{d.name}</text>
         </g>
       </g>
     )

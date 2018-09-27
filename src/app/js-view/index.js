@@ -44,6 +44,12 @@ export default class JsView extends Component {
     }
   };
 
+  handleDrag = (d, dx, dy) => {
+    d.x += dx;
+    d.y += dy;
+    this.forceUpdate();
+  };
+
   handleZoom(d) {
     console.log('===', d)
   }
@@ -97,6 +103,7 @@ export default class JsView extends Component {
                     module={d}
                     onLineStart={this.handleLineStart}
                     onZoom={this.handleZoom}
+                    onDrag={this.handleDrag}
                   />
                 ))}
               </g>
