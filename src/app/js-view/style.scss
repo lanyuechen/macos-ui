@@ -34,14 +34,12 @@
       width: 100%;
       height: 100%;
       position: relative;
-      .lines {
-        path {
-          stroke-width: 1px;
-          stroke: #8ac007;
-          stroke-dasharray: 5;
-          stroke-dashoffset: 10;
-          animation: offset 0.5s linear infinite;
-        }
+      .link-path {
+        stroke-width: 1px;
+        stroke: #8ac007;
+        stroke-dasharray: 5;
+        stroke-dashoffset: 10;
+        animation: offset 0.5s linear infinite;
       }
     }
   }

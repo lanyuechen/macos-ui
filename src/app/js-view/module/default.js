@@ -3,13 +3,11 @@ import * as FUNC from '../func';
 
 export const TYPE_FUNCTION = 'FUNCTION';
 export const TYPE_VIEW = 'VIEW';
-export const TYPE_SOURCE = 'SOURCE';
 
 export default class M {
   static TYPES = [
     {key: TYPE_FUNCTION, name: 'ƒ(x)'},
-    {key: TYPE_VIEW, name: 'V(x)'},
-    {key: TYPE_SOURCE, name: 'S(x)'}
+    {key: TYPE_VIEW, name: 'V(x)'}
   ];
 
   constructor({ input = [], func, x, y, width = 50, height = 50, type = TYPE_FUNCTION }) {

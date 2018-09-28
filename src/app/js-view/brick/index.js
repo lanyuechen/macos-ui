@@ -41,15 +41,21 @@ export default class Brick extends Component {
     this.modal = null;
   };
 
+  handleContextMenu = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    
+  };
+
   render() {
-    const { module: d, onLineStart, onZoom } = this.props;
+    const { module: d, onLink, onZoom } = this.props;
     return (
       <g
         className="brick"
         transform={`translate(${d.x - d.width / 2}, ${d.y - d.height / 2})`}
       >
         {/* 牵引线触发按钮 */}
-        <g className="io-area" onClick={() => onLineStart && onLineStart(d)}>
+        <g className="io-area" onClick={() => onLink && onLink(d)}>
           <rect x={0} y={-PADDING} width={d.width} height={PADDING} />
           <rect x={d.width} y={0} width={PADDING} height={d.height} />
           <rect x={0} y={d.height} width={d.width} height={PADDING} />
@@ -64,7 +70,7 @@ export default class Brick extends Component {
           <rect x={-PADDING} y={d.height} width={PADDING} height={PADDING} />
         </g>
 
-        <g ref={dom => d.setDom(dom, this.handleDrag)}>
+        <g ref={dom => d.setDom(dom, this.handleDrag)} onContextMenu={this.handleContextMenu}>
           <rect width={d.width} height={d.height} />
           <text x={d.width / 2} y={d.height / 2} onDoubleClick={this.handleEdit}>{d.name}</text>
         </g>

@@ -37,17 +37,15 @@ export default class Desktop extends Component {
   render() {
     return (
       <div className="desktop">
-        {false && <Fs path="/Users/lanyuechen/Desktop" />}
+        <Fs path="/Users/lanyuechen/Desktop" />
 
         {false && <Game />}
 
-        {false && <JsView />}
+        <JsView />
 
-        {false && (
-          <div className="dock-container">
-            <Dock data={apps} onClick={this.handleClick} />
-          </div>
-        )}
+        <div className="dock-container">
+          <Dock data={apps} onClick={this.handleClick} />
+        </div>
       </div>
     )
   }

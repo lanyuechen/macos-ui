@@ -2,7 +2,13 @@ import Default, { TYPE_VIEW } from './default';
 
 export default class View extends Default {
   constructor(config) {
-    super({...config, type: TYPE_VIEW});
+    super({
+      ...config,
+      type: TYPE_VIEW,
+      func: function(data) {
+        return data;
+      }
+    });
   }
 
   output() {

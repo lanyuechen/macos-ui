@@ -16,7 +16,7 @@ export default class JsView extends Component {
   componentDidMount() {
     setInterval(() => {
       this.tick();
-    }, 2000);
+    }, 1000);
   }
 
   init() {
@@ -34,13 +34,30 @@ export default class JsView extends Component {
     this.forceUpdate();
   };
 
-  handleLineStart = (d) => {
-    if (this.currentInput) {
+  //todo 优化这个方法
+  handleLink = (d) => {
+    if (!this.currentInput) {
+      if (d.type !== TYPE_VIEW) {   //view类型的模块不支持输出
+        this.currentInput = d;
+        this.tmpPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        this.tmpPath.setAttribute('class', 'link-path');
+        this.refs.lines.appendChild(this.tmpPath);
+        this.linkAnimate = (e) => {
+          this.tmpPath.setAttribute('d', `M${d.x} ${d.y} L${e.pageX} ${e.pageY}`)
+        };
+        window.addEventListener('mousemove', this.linkAnimate);
+      }
+    } else {
       d.addInput(this.currentInput);
       this.currentInput = null;
+
+      window.removeEventListener('mousemove', this.linkAnimate);
+      this.linkAnimate = null;
+
+      this.refs.lines.removeChild(this.tmpPath);
+      this.tmpPath = null;
+
       this.forceUpdate();
-    } else {
-      this.currentInput = d;
     }
   };
 
@@ -85,12 +102,12 @@ export default class JsView extends Component {
             onDrop: this.handleDrop
           })(
             <svg>
-              <g className="lines">
+              <g className="lines" ref="lines">
                 {modules.map(d => (
                   <g key={d.id}>
                     {d.input.map((dd, j) => (
                       <g key={j}>
-                        <path d={`M${dd.x} ${dd.y} L${d.x} ${d.y}`} />
+                        <path className="link-path" d={`M${dd.x} ${dd.y} L${d.x} ${d.y}`} />
                       </g>
                     ))}
                   </g>
@@ -101,7 +118,7 @@ export default class JsView extends Component {
                   <Brick
                     key={d.id}
                     module={d}
-                    onLineStart={this.handleLineStart}
+                    onLink={this.handleLink}
                     onZoom={this.handleZoom}
                     onDrag={this.handleDrag}
                   />
