@@ -4,6 +4,8 @@ import * as FUNC from '../func';
 export const TYPE_FUNCTION = 'FUNCTION';
 export const TYPE_VIEW = 'VIEW';
 
+export const TICK_COUNT = Symbol(1);
+
 export default class M {
   static TYPES = [
     {key: TYPE_FUNCTION, name: 'ƒ(x)'},
@@ -17,9 +19,15 @@ export default class M {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.func = FUNC[func] || func;
+    this.func = FUNC[func] || func || function() {};
     this.name = M.TYPES.find(d => d.key === type).name;
     this.type = type;
+    this.tickCount = 0;
+  }
+
+  reset() {
+    this.tickCount = 0;
+    this.lastData = undefined;
   }
 
   addInput(...input) {
@@ -53,6 +61,12 @@ export default class M {
   }
 
   output() {
-    return this.func && this.func(...this.input.map(d => d.output()));
+    //如果当前模块计数大于全局计数,说明此模块处于循环调用,直接返回上次的值,防止死循环
+    console.log('****', this.tickCount, window[TICK_COUNT])
+    if (this.tickCount < window[TICK_COUNT]) {
+      this.tickCount += 1;
+      this.lastData = this.func(...this.input.map(d => d.output()));
+    }
+    return this.lastData;
   }
 }

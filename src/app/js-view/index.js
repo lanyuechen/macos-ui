@@ -4,23 +4,44 @@ import './style.scss';
 import { DragSource, DropTarget } from 'lib/dnd';
 
 import Brick from './brick';
-import M, { TYPE_VIEW } from './module/default';
+import M, { TYPE_VIEW, TICK_COUNT } from './module/default';
 import View from './module/view';
 
 export default class JsView extends Component {
   constructor(props) {
     super(props);
-    this.init();
-  }
-
-  componentDidMount() {
-    setInterval(() => {
-      this.tick();
-    }, 1000);
-  }
-
-  init() {
     this.modules = [];
+    window[TICK_COUNT] = 0;
+  }
+
+  toggle = () => {
+    if (!this.running) {
+      this.running = true;
+      this.interval = setInterval(() => {
+        this.tick();
+      }, 1000);
+    } else {                  //停止
+      this.modules.map(d => d.reset());
+      this.running = null;
+      clearInterval(this.interval);
+      this.interval = null;
+      window[TICK_COUNT] = 0;
+    }
+    this.forceUpdate();
+  };
+
+  tick() {
+    const views = this.modules.filter(d => d.type === TYPE_VIEW);
+    if (!views.length) {
+      return;
+    }
+    //todo 目前暂时支持单输出,后期添加多输出支持
+    const view = views[0];
+
+    //全局执行次数记录,每次tick自加1
+    window[TICK_COUNT] += 1;
+
+    view.output();
   }
 
   handleDrop = (data, e) => {
@@ -71,25 +92,14 @@ export default class JsView extends Component {
     console.log('===', d)
   }
 
-  getViews(modules) {
-    return modules.filter(d => d.type === TYPE_VIEW);
-  }
-
-  tick() {
-    const views = this.getViews(this.modules);
-    if (!views.length) {
-      return;
-    }
-    //todo 目前暂时支持单输出,后期添加多输出支持
-    const view = views[0];
-    view.output();
-  }
-
   render() {
     const { modules } = this;
 
     return (
       <div className="js-view">
+        <div className="toolbar">
+          <button onClick={this.toggle} className="btn-start">{this.running ? '停止' : '开始'}</button>
+        </div>
         <div className="sidebar">
           {M.TYPES.map(d => DragSource(d.key, d)(
             <div className="module">
