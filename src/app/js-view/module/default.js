@@ -12,8 +12,8 @@ export default class M {
     {key: TYPE_VIEW, name: 'V(x)'}
   ];
 
-  constructor({ input = [], func, x, y, width = 50, height = 50, type = TYPE_FUNCTION }) {
-    this.id = uuid();
+  constructor({ id, input = [], func, x, y, width = 50, height = 50, type = TYPE_FUNCTION }) {
+    this.id = id || uuid();
     this.input = input;
     this.x = x;
     this.y = y;

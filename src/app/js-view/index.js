@@ -7,12 +7,60 @@ import Brick from './brick';
 import M, { TYPE_VIEW, TICK_COUNT } from './module/default';
 import View from './module/view';
 
+import demo from './demo.json';
+
 export default class JsView extends Component {
   constructor(props) {
     super(props);
     this.modules = [];
     window[TICK_COUNT] = 0;
   }
+
+  load(modules) {
+    this.modules = modules.map(d => {
+      const Mo = d.type === TYPE_VIEW ? View : M;
+      const m = new Mo({
+        id: d.id,
+        type: d.type,
+        x: d.x,
+        y: d.y,
+        width: d.width,
+        height: d.height
+      });
+      m.setFunc(d.func);
+      return {m, input: d.input};
+    }).map((d, i, ds) => {
+      d.m.addInput(...d.input.map(id => ds.find(dd => dd.m.id === id).m));
+      return d.m;
+    });
+    this.forceUpdate();
+  }
+
+  save = () => {
+    const modules = this.modules.map(d => ({
+      id: d.id,
+      type: d.type,
+      name: d.name,
+      x: d.x,
+      y: d.y,
+      width: d.width,
+      height: d.height,
+      input: d.input.map(dd => dd.id),
+      func: d.func.toString()
+    }));
+    this.download(JSON.stringify(modules, undefined, 2), 'demo.json');
+  };
+
+  download(content, filename) {
+    const a = document.createElement('a');
+    a.download = filename;
+    a.style.display = 'none';
+    var blob = new Blob([content], {type: 'text/plain'});
+    a.href = URL.createObjectURL(blob);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
   toggle = () => {
     if (!this.running) {
@@ -128,6 +176,8 @@ export default class JsView extends Component {
       <div className="js-view">
         <div className="toolbar">
           <button onClick={this.toggle} className="btn-start">{this.running ? '停止' : '开始'}</button>
+          <button onClick={() => this.load(demo)}>加载</button>
+          <button onClick={this.save}>保存</button>
         </div>
         <div className="sidebar">
           {M.TYPES.map(d => DragSource(d.key, d)(

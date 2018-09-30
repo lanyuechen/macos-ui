@@ -1,0 +1,52 @@
+[
+  {
+    "id": "fb5aeb26b1b14237a0303202",
+    "type": "FUNCTION",
+    "name": "ƒ(x)",
+    "x": 292,
+    "y": 111,
+    "width": 50,
+    "height": 50,
+    "input": [
+    ],
+    "func": "function (a) {\n    return (a || 0) + 1;\n}"
+  },
+  {
+    "id": "123a068b93db4edd88539852",
+    "type": "FUNCTION",
+    "name": "ƒ(x)",
+    "x": 292,
+    "y": 200,
+    "width": 50,
+    "height": 50,
+    "input": [],
+    "func": "function () {\n    return 2;\n}"
+  },
+  {
+    "id": "4f0b3ba3df7340229b7a85a6",
+    "type": "FUNCTION",
+    "name": "ƒ(x)",
+    "x": 460,
+    "y": 157,
+    "width": 50,
+    "height": 50,
+    "input": [
+      "fb5aeb26b1b14237a0303202",
+      "123a068b93db4edd88539852"
+    ],
+    "func": "function (a, b) {\n    return a + b;\n}"
+  },
+  {
+    "id": "0c99f88b24f242b6a3f606af",
+    "type": "VIEW",
+    "name": "V(x)",
+    "x": 591,
+    "y": 157,
+    "width": 50,
+    "height": 50,
+    "input": [
+      "4f0b3ba3df7340229b7a85a6"
+    ],
+    "func": "function () {}"
+  }
+]
