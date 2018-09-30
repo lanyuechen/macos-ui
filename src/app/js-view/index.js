@@ -44,6 +44,35 @@ export default class JsView extends Component {
     view.output();
   }
 
+  pathData(a, b) {
+    if (!b.width) {
+      return `M${a.x} ${a.y} L${b.x} ${b.y}`;
+    }
+    const ar = a.x + a.width / 2 + 20;
+    const al = a.x - a.width / 2 - 20;
+    const at = a.y - a.height / 2 - 20;
+    const ab = a.y + a.height / 2 + 20;
+    const bl = b.x - b.width / 2 - 20;
+    const bt = b.y - b.height / 2 - 20;
+    const bb = b.y + b.height / 2 + 20;
+    let d = `M${a.x} ${a.y} L${ar} ${a.y} `;
+    if (ar < bl) {
+      d += `L${ar} ${b.y} L${bl} ${b.y} `;
+    } else {
+      if (ab < bt) {
+        d += `L${ar} ${bt} L${bl} ${bt} L${bl} ${b.y} `;
+      } else if (at > bb) {
+        d += `L${ar} ${bb} L${bl} ${bb} L${bl} ${b.y} `;
+      } else if (a.y > b.y) {
+        d += `L${ar} ${Math.max(bb, ab)} L${Math.min(bl, al)} ${Math.max(bb, ab)} L${Math.min(bl, al)} ${b.y} `;
+      } else {
+        d += `L${ar} ${Math.min(bt, at)} L${Math.min(bl, al)} ${Math.min(bt, at)} L${Math.min(bl, al)} ${b.y} `;
+      }
+    }
+    d += `L${b.x} ${b.y}`;
+    return d;
+  }
+
   handleDrop = (data, e) => {
     const x = e.pageX;
     const y = e.pageY;
@@ -64,7 +93,7 @@ export default class JsView extends Component {
         this.tmpPath.setAttribute('class', 'link-path');
         this.refs.lines.appendChild(this.tmpPath);
         this.linkAnimate = (e) => {
-          this.tmpPath.setAttribute('d', `M${d.x} ${d.y} L${e.pageX} ${e.pageY}`)
+          this.tmpPath.setAttribute('d',this.pathData(d, {x: e.pageX, y: e.pageY}));
         };
         window.addEventListener('mousemove', this.linkAnimate);
       }
@@ -117,7 +146,7 @@ export default class JsView extends Component {
                   <g key={d.id}>
                     {d.input.map((dd, j) => (
                       <g key={j}>
-                        <path className="link-path" d={`M${dd.x} ${dd.y} L${d.x} ${d.y}`} />
+                        <path className="link-path" d={this.pathData(dd, d)} />
                       </g>
                     ))}
                   </g>

@@ -45,7 +45,8 @@
       height: 100%;
       position: relative;
       .link-path {
-        stroke-width: 1px;
+        fill: none;
+        stroke-width: 2px;
         stroke: #8ac007;
         stroke-dasharray: 5;
         stroke-dashoffset: 10;
