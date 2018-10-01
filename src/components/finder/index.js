@@ -2,12 +2,33 @@ import React, { Component } from 'react';
 
 import './style.scss';
 
+import * as act from 'lib/act';
+
 export default class Finder extends Component {
   constructor(props) {
     super(props);
   }
 
+  handleOpenApp(d) {
+    if (d.key === 'chrome') {
+      act.openChrome(600, 400);
+    } else if (d.key === 'game-of-life') {
+      act.openGameOfLife(600, 400);
+    } else if (d.key === 'js-view') {
+      act.openJsView(600, 400);
+    } else if (d.key === 'editor') {
+      act.openEditor(600, 400);
+    }
+  }
+
   render() {
+    const apps = [
+      {name: '生命游戏', type: 'game', key: 'game-of-life'},
+      {name: '可视化编程工具', type: 'tool', key: 'js-view'},
+      {name: 'JS编辑器', type: 'tool', key: 'editor'},
+      {name: 'Chrome', type: 'tool', key: 'chrome'}
+    ];
+
     return (
       <div className="finder">
         <div className="sidebar">
@@ -36,12 +57,13 @@ export default class Finder extends Component {
         </div>
         <div className="finder-body">
           <ul>
-            <li>
-              <a>
-                <i className="icon icon-game" />
-                生命游戏
-              </a>
-            </li>
+            {apps.map((d, i) => (
+              <li>
+                <a onDoubleClick={() => this.handleOpenApp(d)}>
+                  <i className={`iconfont icon-${d.type}`} />&nbsp;{d.name}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

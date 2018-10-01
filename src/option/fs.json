@@ -12,10 +12,13 @@
               "children": [
                 {
                   "name": "Chrome",
+                  "key": "chrome",
                   "icon": "public/img/icon/chrome.png"
                 },
                 {
-                  "name": "test2"
+                  "name": "生命游戏",
+                  "key": "game-of-life",
+                  "icon": "public/img/icon/game-of-life.jpeg"
                 }
               ]
             }

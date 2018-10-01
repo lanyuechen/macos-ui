@@ -6,14 +6,24 @@ export default class Browser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      addr: 'https://www.baidu.com'
-    }
+      addr: 'https://codepen.io/lanyuechen'
+    };
+    window.addEventListener('keypress', this.handleKey);
   }
 
-  handleChange = (e) => {
-    this.setState({
-      addr: e.target.value
-    })
+  handleKey = (e) => {
+    if (e.keyCode === 13) {
+      if (!e.target.value.match(/https?:\/\//)) {
+        e.target.value = 'http://' + e.target.value;
+      }
+      this.setState({
+        addr: e.target.value
+      });
+    }
+  };
+
+  handleRefresh = () => {
+    this.forceUpdate();
   };
 
   render() {
@@ -28,10 +38,10 @@ export default class Browser extends Component {
           <ul>
             <li><i className="iconfont icon-left" /></li>
             <li><i className="iconfont icon-right" /></li>
-            <li><i className="iconfont icon-refresh" /></li>
+            <li onClick={this.handleRefresh}><i className="iconfont icon-refresh" /></li>
             <li><i className="iconfont icon-home" /></li>
             <li className="address">
-              <input value={addr} onChange={this.handleChange} type="text" />
+              <input type="text" defaultValue={addr} />
             </li>
           </ul>
 

@@ -32,7 +32,7 @@ export default class Carousel extends Component {
   }
 
   handleKey = (e) => {
-    if (e.metaKey) {
+    if (e.altKey) {
       if (e.keyCode === 39) {
         this.next();
       }

@@ -43,12 +43,18 @@ export default class Dialog extends Component {
   };
 
   handleMax = () => {
-    this.resize({
-      x: 0,
-      y: 0,
-      width: window.innerWidth,
-      height: window.innerHeight
-    });
+    if (this.originSize) {
+      this.resize(this.originSize);
+      this.originSize = null;
+    } else {
+      this.originSize = this.rect;
+      this.resize({
+        x: 0,
+        y: 0,
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    }
   };
 
   resize(rect) {

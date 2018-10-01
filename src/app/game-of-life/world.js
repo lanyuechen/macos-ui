@@ -79,7 +79,7 @@ export default class World {
             y2: (this.height - this.transform.y) / this.transform.k
           },
           style: {
-            stroke: '#eee'
+            stroke: '#ccc'
           }
         }));
         const offsetY = Math.floor(this.transform.y / grid);
@@ -91,7 +91,7 @@ export default class World {
             y2: (j - offsetY) * this.grid
           },
           style: {
-            stroke: '#eee'
+            stroke: '#ccc'
           }
         }));
       }
