@@ -2,20 +2,22 @@ import React, { Component } from 'react';
 
 import './style.scss';
 
-import Dock from 'components/dock';
+import Carousel from 'lib/carousel';
 
-import Game from 'app/game-of-life';
+import GameOfLife from 'app/game-of-life';
 import JsView from 'app/js-view';
+import Browser from 'app/browser';
 
+import Dock from 'components/dock';
 import Finder from 'components/finder';
-import dialog from 'components/dialog';
-
 import Launchpad from 'components/launchpad';
+import Fs from 'components/fs';
+import SysMenuBar from 'components/sys-menu-bar';
+
+import dialog from 'components/dialog';
 import modal from 'components/modal';
 
 import apps from 'option/apps.json';
-
-import Fs from 'components/fs';
 
 export default class Desktop extends Component {
   constructor(props) {
@@ -31,22 +33,39 @@ export default class Desktop extends Component {
       modal({
         content: <Launchpad data={apps} />
       })
+    } else if (d.key === 'chrome') {
+      dialog({
+        width: 600,
+        height: 400,
+        content: <Browser />
+      })
     }
   }
 
   render() {
     return (
-      <div className="desktop">
-        <Fs path="/Users/lanyuechen/Desktop" />
+      <Carousel
+        interval={0}
+        currentPage={0}
+      >
+        <div className="desktop">
+          <SysMenuBar />
 
-        {false && <Game />}
+          <Fs path="/Users/lanyuechen/Desktop" />
 
-        <JsView />
-
-        <div className="dock-container">
-          <Dock data={apps} onClick={this.handleClick} />
+          <div className="dock-container">
+            <Dock data={apps} onClick={this.handleClick} />
+          </div>
         </div>
-      </div>
+
+        <div className="desktop">
+          <JsView />
+        </div>
+
+        <div className="desktop">
+          <GameOfLife />
+        </div>
+      </Carousel>
     )
   }
 }

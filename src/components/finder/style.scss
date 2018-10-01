@@ -20,11 +20,15 @@
       }
     }
     .sub-menu {
-      font-size: 14px;
       li {
+        font-size: 14px;
+        color: #181818;
         height: 24px;
         line-height: 24px;
         padding-left: 15px;
+        i {
+          color: #666;
+        }
         &.active {
           background: rgb(132, 141, 145);
         }

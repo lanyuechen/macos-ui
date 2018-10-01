@@ -1,0 +1,54 @@
+.browser {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .tab-bar {
+    height: 25px;
+  }
+  .address-bar {
+    border-bottom: 1px solid #ddd;
+    height: 25px;
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      height: 22px;
+      li {
+        padding: 0 5px;
+        border-radius: 50%;
+        cursor: pointer;
+        line-height: 22px;
+        &:hover {
+          background: #e0e0e0;
+        }
+        i {
+          font-size: 12px;
+        }
+        &.address {
+          flex: 1;
+          border-radius: 0;
+          &:hover {
+            background: none;
+          }
+          input {
+            width: 100%;
+            height: 100%;
+            border: none;
+          }
+        }
+      }
+    }
+  }
+  .body {
+    position: absolute;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

@@ -15,7 +15,8 @@ export default class Carousel extends Component {
     next: false,            //是否显示下一页按钮, false不显示, true显示
     prev: false,            //是否显示上一页按钮, false不显示, true显示
     pagination: false,      //是否显示分页, false不显示, true显示
-    loop: false             //无限轮播
+    loop: false,            //无限轮播
+    currentPage: 0          //当前页
   };
 
   constructor(props) {
@@ -23,11 +24,23 @@ export default class Carousel extends Component {
     this.state = {
       itemWidth: 0,
       itemHeight: 0,
-      idx: 0,
+      idx: props.currentPage,
       count: React.Children.count(props.children),
       transition: true
-    }
+    };
+    window.addEventListener('keydown', this.handleKey);
   }
+
+  handleKey = (e) => {
+    if (e.metaKey) {
+      if (e.keyCode === 39) {
+        this.next();
+      }
+      if (e.keyCode === 37) {
+        this.prev();
+      }
+    }
+  };
 
   next = () => {
     const { step, loop, interval } = this.props;
@@ -94,6 +107,7 @@ export default class Carousel extends Component {
 
   componentWillUnmount() {
     clearInterval(this.interval);
+    window.removeEventListener('keydown', this.handleKey);
   }
 
   componentWillReceiveProps(nextProps) {

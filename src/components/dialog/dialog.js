@@ -6,10 +6,10 @@ import Drag from 'lib/drag';
 
 export default class Dialog extends Component {
   static defaultProps = {
-    x: window.innerWidth / 4,
-    y: window.innerHeight / 4,
-    width: window.innerWidth / 2,
-    height: window.innerHeight / 2
+    x: 0,
+    y: 0,
+    width: 600,
+    height: 400
   };
 
   constructor(props) {

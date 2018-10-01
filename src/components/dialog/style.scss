@@ -70,9 +70,11 @@
     .dialog-body {
       border-radius: 0 0 4px 4px;
       height: 100%;
+      width: 100%;
       padding-top: 22px;
       position: absolute;
       top: 0;
+      overflow: hidden;
     }
   }
 }

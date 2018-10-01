@@ -31,7 +31,7 @@ export default class Fs extends Component {
       children: this.fsData.children.map((d, i) => ({
         ...d,
         x: Math.floor(i / ROW_SIZE)  * GRID_SIZE,
-        y: i % ROW_SIZE * GRID_SIZE
+        y: i % ROW_SIZE * GRID_SIZE + 22
       }))
     }
   }
