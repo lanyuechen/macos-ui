@@ -57,6 +57,61 @@ export default class Dialog extends Component {
     }
   };
 
+  handleResize = (e, type) => {
+    let lx = e.pageX;
+    let ly = e.pageY;
+    const handleZoom = (ev) => {
+      const dx = ev.pageX - lx;
+      const dy = ev.pageY - ly;
+      lx = ev.pageX;
+      ly = ev.pageY;
+      let rect = {};
+      switch(type) {
+        case 'left-top':
+          rect.x = this.rect.x + dx;
+          rect.y = this.rect.y + dy;
+          rect.width = this.rect.width - dx;
+          rect.height = this.rect.height - dy;
+          break;
+        case 'top':
+          rect.y = this.rect.y + dy;
+          rect.height = this.rect.height - dy;
+          break;
+        case 'right-top':
+          rect.y = this.rect.y + dy;
+          rect.height = this.rect.height - dy;
+          rect.width = this.rect.width + dx;
+          break;
+        case 'right':
+          rect.width = this.rect.width + dx;
+          break;
+        case 'right-bottom':
+          rect.height = this.rect.height + dy;
+          rect.width = this.rect.width + dx;
+          break;
+        case 'bottom':
+          rect.height = this.rect.height + dy;
+          break;
+        case 'left-bottom':
+          rect.x = this.rect.x + dx;
+          rect.width = this.rect.width - dx;
+          rect.height = this.rect.height + dy;
+          break;
+        case 'left':
+          rect.x = this.rect.x + dx;
+          rect.width = this.rect.width - dx;
+          break;
+      }
+      this.resize(rect);
+    };
+    const handleMouseUp = () => {
+      window.removeEventListener('mousemove', handleZoom);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+    window.addEventListener('mousemove', handleZoom);
+    window.addEventListener('mouseup', handleMouseUp);
+  };
+
   resize(rect) {
     this.rect = { ...this.rect, ...rect };
     this.refs.container.style.cssText = `
@@ -100,6 +155,15 @@ export default class Dialog extends Component {
           <div className="dialog-body">
             {children}
           </div>
+
+          <div className="zoom-area zoom-left-top" onMouseDown={(e) => this.handleResize(e, 'left-top')}></div>
+          <div className="zoom-area zoom-top" onMouseDown={(e) => this.handleResize(e, 'top')}></div>
+          <div className="zoom-area zoom-right-top" onMouseDown={(e) => this.handleResize(e, 'right-top')}></div>
+          <div className="zoom-area zoom-right" onMouseDown={(e) => this.handleResize(e, 'right')}></div>
+          <div className="zoom-area zoom-right-bottom" onMouseDown={(e) => this.handleResize(e, 'right-bottom')}></div>
+          <div className="zoom-area zoom-bottom" onMouseDown={(e) => this.handleResize(e, 'bottom')}></div>
+          <div className="zoom-area zoom-left-bottom" onMouseDown={(e) => this.handleResize(e, 'left-bottom')}></div>
+          <div className="zoom-area zoom-left" onMouseDown={(e) => this.handleResize(e, 'left')}></div>
         </div>
       </div>
     )

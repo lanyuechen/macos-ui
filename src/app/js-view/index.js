@@ -122,8 +122,9 @@ export default class JsView extends Component {
   }
 
   handleDrop = (data, e) => {
-    const x = e.pageX;
-    const y = e.pageY;
+    const boundingRect = e.target.getBoundingClientRect();
+    const x = e.pageX - boundingRect.x;
+    const y = e.pageY - boundingRect.y;
     if (data.type === TYPE_VIEW) {
       this.modules.push(new View({x, y}));
     } else {

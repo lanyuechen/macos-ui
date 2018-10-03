@@ -1,3 +1,5 @@
+$padding: 5px;
+
 .dialog {
   position: fixed;
   width: 100%;
@@ -75,6 +77,63 @@
       position: absolute;
       top: 0;
       overflow: hidden;
+    }
+    .zoom-area {
+      position: absolute;
+      z-index: 1;
+      &.zoom-left-top, &.zoom-right-top, &.zoom-left-bottom, &.zoom-right-bottom {
+        width: $padding;
+        height: $padding;
+        z-index: 2;
+      }
+      &.zoom-top, &.zoom-bottom {
+        width: 100%;
+        height: $padding;
+      }
+      &.zoom-left, &.zoom-right {
+        width: $padding;
+        height: 100%;
+      }
+      &.zoom-left-top {
+        cursor: nwse-resize;
+        left: 0;
+        top: 0;
+      }
+      &.zoom-right-top {
+        cursor: nesw-resize;
+        right: 0;
+        top: 0;
+      }
+      &.zoom-left-bottom {
+        cursor: nesw-resize;
+        left: 0;
+        bottom: 0;
+      }
+      &.zoom-right-bottom {
+        cursor: nwse-resize;
+        right: 0;
+        bottom: 0;
+      }
+      &.zoom-top {
+        cursor: ns-resize;
+        left: 0;
+        top: 0;
+      }
+      &.zoom-bottom {
+        cursor: ns-resize;
+        left: 0;
+        bottom: 0;
+      }
+      &.zoom-left {
+        cursor: ew-resize;
+        left: 0;
+        top: 0;
+      }
+      &.zoom-right {
+        cursor: ew-resize;
+        right: 0;
+        top: 0;
+      }
     }
   }
 }
