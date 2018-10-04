@@ -5,7 +5,7 @@ import './style.scss';
 import fs from 'option/fs.json';
 import Drag from 'lib/drag';
 
-import * as act from 'lib/act';
+import * as app from 'app';
 
 const GRID_SIZE = 100;
 const ROW_SIZE = 5;
@@ -55,11 +55,7 @@ export default class Fs extends Component {
   }
 
   handleOpenApp(d) {
-    if (d.key === 'chrome') {
-      act.openChrome(600, 400);
-    } else if (d.key === 'game-of-life') {
-      act.openGameOfLife(600, 400);
-    }
+    app.open(d.key, {width: 600, height: 400});
   }
 
   render() {
@@ -68,7 +64,7 @@ export default class Fs extends Component {
     return (
       <div className="fs">
         {files.map((d, i) => (
-          <div className="fs-item" key={i} ref={(dom) => files[i].dom = dom} style={{left: d.x, top: d.y}}>
+          <div className="fs-item" tabIndex={i} key={i} ref={(dom) => files[i].dom = dom} style={{left: d.x, top: d.y}}>
             <a onDoubleClick={() => this.handleOpenApp(d)}>
               <img src={d.icon || 'public/img/icon/default.png'}/>
               <label>{d.children ? d.path : d.name}</label>

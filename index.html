@@ -45,6 +45,11 @@
             background: url(./dist/public/img/icon/user-default.jpg) center center;
             background-size: contain;
             border: 2px solid #eee;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            transition: transform .3s;
+        }
+        .users li:hover .icon {
+            transform: scale(1.2);
         }
         .users li span {
             color: #ddd;
@@ -61,16 +66,27 @@
     <div class="bg"></div>
     <div class="container">
         <ul class="users">
-            <li onclick="handleClick()">
+            <li id="lanyuechen">
                 <div class="icon"></div>
-                <span>兰月臣</span>
+                <span id="name">loading...</span>
             </li>
         </ul>
     </div>
+
+    <!--预加载需要的js-->
+    <script src="dist/public/react.min.js"></script>
+    <script src="dist/public/react-dom.min.js"></script>
+    <script src="dist/public/vue.min.js"></script>
+    <script src="dist/public/av-min.js"></script>
+    <script src="dist/public/zrender.min.js"></script>
+    <script src="dist/public/d3.min.js"></script>
+    <script src="dist/public/ace/ace.js"></script>
+
     <script>
-        function handleClick() {
+        document.getElementById('name').innerHTML = '兰月臣';
+        document.getElementById('lanyuechen').addEventListener('click', function() {
             window.location = '/dist';
-        }
+        });
     </script>
 </body>
 </html>

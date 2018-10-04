@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './style.scss';
 
 import Carousel from 'lib/carousel';
-import * as act from 'lib/act';
+import * as app from 'app';
 
 import GameOfLife from 'app/game-of-life';
 import JsView from 'app/js-view';
@@ -11,6 +11,8 @@ import JsView from 'app/js-view';
 import Dock from 'components/dock';
 import Fs from 'components/fs';
 import SysMenuBar from 'components/sys-menu-bar';
+import modal from 'components/modal';
+import Launchpad from 'components/launchpad';
 
 import apps from 'option/apps.json';
 
@@ -20,13 +22,13 @@ export default class Desktop extends Component {
   }
 
   handleClick(d) {
-    if (d.key === 'finder') {
-      act.openFinder();
-    } else if (d.key === 'launchpad') {
-      act.openLaunchpad(apps);
-    } else if (d.key === 'chrome') {
-      act.openChrome(600, 400);
+    if (d.key === 'launchpad') {
+      modal({
+        content: <Launchpad data={apps} />
+      });
+      return;
     }
+    app.open(d.key, {width: 600, height: 400});
   }
 
   render() {
@@ -43,10 +45,6 @@ export default class Desktop extends Component {
           <div className="dock-container">
             <Dock data={apps} onClick={this.handleClick} />
           </div>
-        </div>
-
-        <div className="desktop">
-          <JsView />
         </div>
       </Carousel>
     )

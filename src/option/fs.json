@@ -19,6 +19,11 @@
                   "name": "生命游戏",
                   "key": "game-of-life",
                   "icon": "public/img/icon/game-of-life.jpeg"
+                },
+                {
+                  "name": "jsVIEW",
+                  "key": "js-view",
+                  "icon": "public/img/icon/js-view.png"
                 }
               ]
             }

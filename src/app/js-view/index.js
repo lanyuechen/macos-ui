@@ -142,7 +142,8 @@ export default class JsView extends Component {
         this.tmpPath.setAttribute('class', 'link-path');
         this.refs.lines.appendChild(this.tmpPath);
         this.linkAnimate = (e) => {
-          this.tmpPath.setAttribute('d',this.pathData(d, {x: e.pageX, y: e.pageY}));
+          const boundingRect = this.refs.content.getBoundingClientRect();
+          this.tmpPath.setAttribute('d',this.pathData(d, {x: e.pageX - boundingRect.x, y: e.pageY - boundingRect.y}));
         };
         window.addEventListener('mousemove', this.linkAnimate);
       }
@@ -187,7 +188,7 @@ export default class JsView extends Component {
             </div>
           ))}
         </div>
-        <div className="content">
+        <div className="content" ref="content">
           {DropTarget(M.TYPES.map(d => d.key), {
             onDrop: this.handleDrop
           })(

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.scss';
 
-import * as act from 'lib/act';
+import * as app from 'app';
 
 export default class Finder extends Component {
   constructor(props) {
@@ -10,15 +10,7 @@ export default class Finder extends Component {
   }
 
   handleOpenApp(d) {
-    if (d.key === 'chrome') {
-      act.openChrome(600, 400);
-    } else if (d.key === 'game-of-life') {
-      act.openGameOfLife(600, 400);
-    } else if (d.key === 'js-view') {
-      act.openJsView(600, 400);
-    } else if (d.key === 'editor') {
-      act.openEditor(600, 400);
-    }
+    app.open(d.key, {width: 600, height: 400});
   }
 
   render() {
