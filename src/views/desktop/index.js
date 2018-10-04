@@ -48,10 +48,6 @@ export default class Desktop extends Component {
     const { desktops } = this.state;
 
     return (
-      <JsView />
-    );
-
-    return (
       <Carousel
         ref="carousel"
         interval={0}
