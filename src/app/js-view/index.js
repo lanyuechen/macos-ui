@@ -3,9 +3,14 @@ import './style.scss';
 
 import { DragSource, DropTarget } from 'lib/dnd';
 
+import ContextMenu from './context-menu';
 import Brick from './brick';
 import M, { TYPE_VIEW, TICK_COUNT } from './module/default';
 import View from './module/view';
+
+import popover from 'components/popover';
+import modal from 'components/modal';
+import Editor from 'app/editor';
 
 import demo from './demo.json';
 
@@ -14,6 +19,8 @@ export default class JsView extends Component {
     super(props);
     this.modules = [];
     window[TICK_COUNT] = 0;
+
+    this.load(demo);
   }
 
   load(modules) {
@@ -49,6 +56,10 @@ export default class JsView extends Component {
       func: d.func.toString()
     }));
     this.download(JSON.stringify(modules, undefined, 2), 'demo.json');
+  };
+
+  saveModel = () => {
+
   };
 
   download(content, filename) {
@@ -93,20 +104,20 @@ export default class JsView extends Component {
   }
 
   pathData(a, b) {
-    if (!b.width) {
-      return `M${a.x} ${a.y} L${b.x} ${b.y}`;
-    }
-    const ar = a.x + a.width / 2 + 20;
-    const al = a.x - a.width / 2 - 20;
-    const at = a.y - a.height / 2 - 20;
-    const ab = a.y + a.height / 2 + 20;
-    const bl = b.x - b.width / 2 - 20;
-    const bt = b.y - b.height / 2 - 20;
-    const bb = b.y + b.height / 2 + 20;
-    let d = `M${a.x} ${a.y} L${ar} ${a.y} `;
-    if (ar < bl) {
-      d += `L${ar} ${b.y} L${bl} ${b.y} `;
+    const PADDING = 20;
+    let ar = a.x + a.width / 2 + PADDING;
+    const al = a.x - a.width / 2 - PADDING;
+    const at = a.y - a.height / 2 - PADDING;
+    const ab = a.y + a.height / 2 + PADDING;
+    let bl = b.x - b.width / 2 - PADDING;
+    const bt = b.y - b.height / 2 - PADDING;
+    const bb = b.y + b.height / 2 + PADDING;
+    let d = `M${a.x} ${a.y} `;
+    if (a.x + a.width / 2 < b.x - b.width / 2) {
+      bl = ar = (ar + bl) / 2;
+      d += `L${ar} ${a.y} L${ar} ${b.y} L${bl} ${b.y} `;
     } else {
+      d += `L${ar} ${a.y} `;
       if (ab < bt) {
         d += `L${ar} ${bt} L${bl} ${bt} L${bl} ${b.y} `;
       } else if (at > bb) {
@@ -143,22 +154,38 @@ export default class JsView extends Component {
         this.refs.lines.appendChild(this.tmpPath);
         this.linkAnimate = (e) => {
           const boundingRect = this.refs.content.getBoundingClientRect();
-          this.tmpPath.setAttribute('d',this.pathData(d, {x: e.pageX - boundingRect.x, y: e.pageY - boundingRect.y}));
+          this.tmpPath.setAttribute('d', this.pathData(d, {
+            x: e.pageX - boundingRect.x,
+            y: e.pageY - boundingRect.y,
+            width: 0,
+            height: 0
+          }));
+        };
+        this.handleKeyPress = (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          this.clearTmpLink();
         };
         window.addEventListener('mousemove', this.linkAnimate);
+        window.addEventListener('contextmenu', this.handleKeyPress)
       }
     } else {
       d.addInput(this.currentInput);
-      this.currentInput = null;
-
-      window.removeEventListener('mousemove', this.linkAnimate);
-      this.linkAnimate = null;
-
-      this.refs.lines.removeChild(this.tmpPath);
-      this.tmpPath = null;
-
-      this.forceUpdate();
+      this.clearTmpLink();
     }
+  };
+
+  clearTmpLink = () => {
+    this.currentInput = null;
+    window.removeEventListener('mousemove', this.linkAnimate);
+    window.removeEventListener('contextmenu', this.handleKeyPress);
+    this.linkAnimate = null;
+    this.handleKeyPress = null;
+
+    this.refs.lines.removeChild(this.tmpPath);
+    this.tmpPath = null;
+
+    this.forceUpdate();
   };
 
   handleDrag = (d, dx, dy) => {
@@ -171,15 +198,89 @@ export default class JsView extends Component {
     console.log('===', d)
   }
 
+  handleContextMenu = (e, d) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const handleRemove = () => {
+      this.modules = this.modules.filter(m => {
+        if (m !== d) {
+          m.input = m.input.filter(i => i !== d);
+          return true;
+        }
+      });
+      this.forceUpdate();
+    };
+
+    popover({
+      x: e.pageX,
+      y: e.pageY,
+      content: (
+        <ContextMenu
+          data={[
+            {name: '编辑', onClick: () => this.handleEdit(d)},
+            {name: '删除', onClick: handleRemove}
+          ]}
+        />
+      )
+    });
+  };
+
+  handleLinkContext = (e, d, dd) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const handleRemove = () => {
+      this.modules.map(m => {
+        if (m === d) {
+          m.input = m.input.filter(i => i !== dd);
+        }
+      });
+      this.forceUpdate();
+    };
+
+    popover({
+      x: e.pageX,
+      y: e.pageY,
+      content: (
+        <ContextMenu
+          data={[
+            {name: '删除', onClick: handleRemove}
+          ]}
+        />
+      )
+    });
+  };
+
+  handleConfirm = (module, func) => {
+    module.setFunc(func);
+    this.modal.destroy();
+    this.modal = null;
+  };
+
+  handleEdit = (module) => {
+    this.modal = modal({
+      content: (
+        <div style={{width: '80%', height: '80%', margin: '10%'}}>
+          <Editor onConfirm={(txt) => this.handleConfirm(module, txt)}>
+            {module.func && module.func.toString()}
+          </Editor>
+        </div>
+      )
+    })
+  };
+
   render() {
     const { modules } = this;
 
     return (
       <div className="js-view">
         <div className="toolbar">
+          <button onClick={() => this.load([])}>重置</button>
           <button onClick={this.toggle} className="btn-start">{this.running ? '停止' : '开始'}</button>
           <button onClick={() => this.load(demo)}>加载</button>
           <button onClick={this.save}>保存</button>
+          <button onClick={this.saveModel}>保存为组件</button>
         </div>
         <div className="sidebar">
           {M.TYPES.map(d => DragSource(d.key, d)(
@@ -197,8 +298,9 @@ export default class JsView extends Component {
                 {modules.map(d => (
                   <g key={d.id}>
                     {d.input.map((dd, j) => (
-                      <g key={j}>
-                        <path className="link-path" d={this.pathData(dd, d)} />
+                      <g key={j} className="link-path" onContextMenu={(e) => this.handleLinkContext(e, d, dd)}>
+                        <path className="path-hidden" d={this.pathData(dd, d)} />
+                        <path className="path-display" d={this.pathData(dd, d)} />
                       </g>
                     ))}
                   </g>
@@ -212,6 +314,8 @@ export default class JsView extends Component {
                     onLink={this.handleLink}
                     onZoom={this.handleZoom}
                     onDrag={this.handleDrag}
+                    onEdit={() => this.handleEdit(d)}
+                    onContextMenu={(e) => this.handleContextMenu(e, d)}
                   />
                 ))}
               </g>

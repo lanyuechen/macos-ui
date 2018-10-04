@@ -23,7 +23,7 @@ export default function(config) {
 
   ReactDOM.render((
     <Dialog
-      name="Finder"
+      name={config.name || '未知'}
       onCancel={close}
       x={x}
       y={y}

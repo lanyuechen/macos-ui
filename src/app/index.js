@@ -25,6 +25,7 @@ export function open(key, props) {
     return;
   }
   dialog({
+    name: key,
     width: props.width,
     height: props.height,
     content: <App />

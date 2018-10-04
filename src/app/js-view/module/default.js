@@ -1,5 +1,4 @@
 import { uuid } from 'lib/common';
-import * as FUNC from '../func';
 
 export const TYPE_FUNCTION = 'FUNCTION';
 export const TYPE_VIEW = 'VIEW';
@@ -19,7 +18,7 @@ export default class M {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.func = FUNC[func] || func || function() {};
+    this.func = func || function() {};
     this.name = M.TYPES.find(d => d.key === type).name;
     this.type = type;
     this.tickCount = 0;

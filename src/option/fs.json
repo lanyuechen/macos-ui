@@ -21,9 +21,19 @@
                   "icon": "public/img/icon/game-of-life.jpeg"
                 },
                 {
+                  "name": "编辑器",
+                  "key": "editor",
+                  "icon": "public/img/icon/editor.png"
+                },
+                {
                   "name": "jsVIEW",
                   "key": "js-view",
                   "icon": "public/img/icon/js-view.png"
+                },
+                {
+                  "name": "文件夹",
+                  "key": "file",
+                  "icon": "public/img/icon/file.png"
                 }
               ]
             }
