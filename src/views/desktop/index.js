@@ -49,10 +49,6 @@ export default class Desktop extends Component {
     const { desktops } = this.state;
 
     return (
-      <Browser />
-    );
-
-    return (
       <Carousel
         ref="carousel"
         interval={0}
