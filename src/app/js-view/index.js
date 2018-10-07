@@ -150,7 +150,7 @@ export default class JsView extends Component {
       if (d.type !== TYPE_VIEW) {   //view类型的模块不支持输出
         this.currentInput = d;
         this.tmpPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        this.tmpPath.setAttribute('class', 'link-path');
+        this.tmpPath.setAttribute('class', 'path-display');
         this.refs.lines.appendChild(this.tmpPath);
         this.linkAnimate = (e) => {
           const boundingRect = this.refs.content.getBoundingClientRect();

@@ -51,19 +51,19 @@
           stroke-width: 6px;
           stroke: transparent;
         }
-        .path-display {
-          fill: none;
-          stroke-width: 2px;
-          stroke: #8ac007;
-          stroke-dasharray: 5;
-          stroke-dashoffset: 10;
-          animation: offset 0.5s linear infinite;
-        }
         &:hover {
           .path-hidden {
             stroke: #555;
           }
         }
+      }
+      .path-display {
+        fill: none;
+        stroke-width: 2px;
+        stroke: #8ac007;
+        stroke-dasharray: 5;
+        stroke-dashoffset: 10;
+        animation: offset 0.5s linear infinite;
       }
     }
   }

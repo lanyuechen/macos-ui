@@ -47,6 +47,10 @@ export default class Desktop extends Component {
   render() {
     const { desktops } = this.state;
 
+    //return (
+    //  <JsView />
+    //);
+
     return (
       <Carousel
         ref="carousel"
