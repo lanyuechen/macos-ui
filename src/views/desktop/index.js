@@ -4,6 +4,7 @@ import './style.scss';
 
 import Carousel from 'lib/carousel';
 
+import Browser from 'app/browser';
 import GameOfLife from 'app/game-of-life';
 import JsView from 'app/js-view';
 import * as app from 'app';
@@ -47,9 +48,9 @@ export default class Desktop extends Component {
   render() {
     const { desktops } = this.state;
 
-    //return (
-    //  <JsView />
-    //);
+    return (
+      <Browser />
+    );
 
     return (
       <Carousel

@@ -1,0 +1,33 @@
+.tab {
+  height: 100%;
+  .tab-header {
+    height: 28px;
+    padding: 5px 5px 0 5px;
+    background: #f1f1f1;
+    border-bottom: 1px solid #ddd;
+    .tab-header-item {
+      padding: 0 10px;
+      font-size: 12px;
+      height: 22px;
+      line-height: 22px;
+      border-radius: 5px 5px 0 0;
+      display: inline-block;
+      margin: 0 5px -1px 0;
+      border: 1px solid #ddd;
+      cursor: pointer;
+      border-bottom: none;&.active {
+        background: #fff;
+      }
+    }
+  }
+  .tab-body {
+    position: absolute;
+    width: 100%;
+    top: 28px;
+    bottom: 0;
+    overflow: hidden;
+    .tab-body-item {
+      height: 100%;
+    }
+  }
+}
