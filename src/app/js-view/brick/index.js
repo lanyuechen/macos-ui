@@ -45,7 +45,12 @@ export default class Brick extends Component {
 
         <g ref={dom => d.setDom(dom, this.handleDrag)} onContextMenu={onContextMenu}>
           <rect width={d.width} height={d.height} />
-          <text x={d.width / 2} y={d.height / 2} onDoubleClick={onEdit}>{d.name}</text>
+          <text x={d.width / 2} y={d.height / 2} onDoubleClick={onEdit}>
+            {d.name}
+          </text>
+          <text className="output" x={d.width + 12} y={d.height / 2 + 12}>
+            {d.lastData}
+          </text>
         </g>
       </g>
     )

@@ -101,6 +101,8 @@ export default class JsView extends Component {
     window[TICK_COUNT] += 1;
 
     view.output();
+
+    this.forceUpdate();
   }
 
   pathData(a, b) {
@@ -270,12 +272,22 @@ export default class JsView extends Component {
     })
   };
 
+  handleChangeSpeed = (e) => {
+    if (this.running) {
+      clearInterval(this.interval);
+      this.interval = setInterval(() => {
+        this.tick();
+      }, e.target.value);
+    }
+  };
+
   render() {
     const { modules } = this;
 
     return (
       <div className="js-view">
         <div className="toolbar">
+          <input type="range" defaultValue="1000" max="10000" min="20" onMouseUp={this.handleChangeSpeed} />
           <button onClick={() => this.load([])}>重置</button>
           <button onClick={this.toggle} className="btn-start">{this.running ? '停止' : '开始'}</button>
           <button onClick={() => this.load(demo)}>加载</button>

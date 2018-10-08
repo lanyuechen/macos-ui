@@ -1,52 +1,66 @@
 [
   {
-    "id": "fb5aeb26b1b14237a0303202",
+    "id": "6cde0dde7ae24491821e5bc5",
     "type": "FUNCTION",
     "name": "ƒ(x)",
-    "x": 292,
-    "y": 111,
+    "x": 518,
+    "y": 118,
     "width": 50,
     "height": 50,
     "input": [
+      "75dfe17da65449f1a7bf6153",
+      "2ee3edf10e294b568217d0a3"
     ],
-    "func": "function (a) {\n    return (a || 0) + 1;\n}"
+    "func": "function (a, b) { \n    return a && b ? 0 : 1;\n}"
   },
   {
-    "id": "123a068b93db4edd88539852",
+    "id": "75dfe17da65449f1a7bf6153",
     "type": "FUNCTION",
     "name": "ƒ(x)",
-    "x": 292,
-    "y": 200,
+    "x": 518,
+    "y": 233,
+    "width": 50,
+    "height": 50,
+    "input": [
+      "6cde0dde7ae24491821e5bc5",
+      "895581b8635d41c5b39b3c7b"
+    ],
+    "func": "function (a, b) { \n    return a && b ? 0 : 1;\n}"
+  },
+  {
+    "id": "84dec8afe0ca4f8b826a8ce9",
+    "type": "VIEW",
+    "name": "V(x)",
+    "x": 672,
+    "y": 174,
+    "width": 50,
+    "height": 50,
+    "input": [
+      "6cde0dde7ae24491821e5bc5",
+      "75dfe17da65449f1a7bf6153"
+    ],
+    "func": "function () {}"
+  },
+  {
+    "id": "2ee3edf10e294b568217d0a3",
+    "type": "FUNCTION",
+    "name": "ƒ(x)",
+    "x": 363,
+    "y": 118,
     "width": 50,
     "height": 50,
     "input": [],
-    "func": "function () {\n    return 2;\n}"
+    "func": "function (a) {\n    return (this.tick + 1) % 2\n}"
   },
   {
-    "id": "4f0b3ba3df7340229b7a85a6",
+    "id": "895581b8635d41c5b39b3c7b",
     "type": "FUNCTION",
     "name": "ƒ(x)",
-    "x": 460,
-    "y": 157,
+    "x": 364,
+    "y": 232,
     "width": 50,
     "height": 50,
-    "input": [
-      "fb5aeb26b1b14237a0303202",
-      "123a068b93db4edd88539852"
-    ],
-    "func": "function (a, b) {\n    return a + b;\n}"
-  },
-  {
-    "id": "0c99f88b24f242b6a3f606af",
-    "type": "VIEW",
-    "name": "V(x)",
-    "x": 591,
-    "y": 157,
-    "width": 50,
-    "height": 50,
-    "input": [
-      "4f0b3ba3df7340229b7a85a6"
-    ],
-    "func": "function () {}"
+    "input": [],
+    "func": "function () {\n    return this.tick % 2;\n}"
   }
 ]

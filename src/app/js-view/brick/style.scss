@@ -29,6 +29,8 @@
     dominant-baseline: middle;
     &:hover {
       fill: #000
+    }&.output {
+      fill: red
     }
   }
 }

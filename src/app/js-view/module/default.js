@@ -63,7 +63,8 @@ export default class M {
     //如果当前模块计数大于全局计数,说明此模块处于循环调用,直接返回上次的值,防止死循环
     if (this.tickCount < window[TICK_COUNT]) {
       this.tickCount += 1;
-      this.lastData = this.func(...this.input.map(d => d.output()));
+      const func = this.func.bind({tick: window[TICK_COUNT]});
+      this.lastData = func(...this.input.map(d => d.output()));
     }
     return this.lastData;
   }
