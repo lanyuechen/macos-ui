@@ -1,0 +1,13 @@
+{
+  "code": 200,
+  "msg": "SUCCESS",
+  "data": {
+    "id": 1,
+    "music_name": "canon",
+    "music_file": "public/canon.mp3",
+    "duration": "470.343401360",
+    "editor": "admin",
+    "ctime": 1537369450776,
+    "utime": 1537369450776
+  }
+}
