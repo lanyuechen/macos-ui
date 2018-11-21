@@ -11,7 +11,7 @@ export default class M {
     {key: TYPE_VIEW, name: 'V(x)'}
   ];
 
-  constructor({ id, input = [], func, x, y, width = 50, height = 50, type = TYPE_FUNCTION }) {
+  constructor({ id, name, input = [], func, x, y, width = 50, height = 50, type = TYPE_FUNCTION }) {
     this.id = id || uuid();
     this.input = input;
     this.x = x;
@@ -19,7 +19,7 @@ export default class M {
     this.width = width;
     this.height = height;
     this.func = func || function() {};
-    this.name = M.TYPES.find(d => d.key === type).name;
+    this.name = name || M.TYPES.find(d => d.key === type).name;
     this.type = type;
     this.tickCount = 0;
   }
@@ -66,6 +66,12 @@ export default class M {
       const func = this.func.bind({tick: window[TICK_COUNT]});
       this.lastData = func(...this.input.map(d => d.output()));
     }
+    console.log('===', {
+      name: this.name,
+      tickGlobal: window[TICK_COUNT],
+      tick: this.tickCount,
+      value: this.lastData
+    });
     return this.lastData;
   }
 }

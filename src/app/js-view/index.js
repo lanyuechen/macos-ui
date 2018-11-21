@@ -28,6 +28,7 @@ export default class JsView extends Component {
       const Mo = d.type === TYPE_VIEW ? View : M;
       const m = new Mo({
         id: d.id,
+        name: d.name,
         type: d.type,
         x: d.x,
         y: d.y,

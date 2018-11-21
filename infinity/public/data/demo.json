@@ -1,0 +1,92 @@
+{
+  "from": "root",
+  "components": {
+    "root": {
+      "type": "COMPONENT",
+      "name": "根组件",
+      "input": [],
+      "output": "out",
+      "links": [
+        {
+          "id": "0",
+          "input": [],
+          "component": "c_source_0"
+        },
+        {
+          "id": "1",
+          "input": [],
+          "component": "c_source_1"
+        },
+        {
+          "id": "2",
+          "input": [
+            "0",
+            "1"
+          ],
+          "component": "c_component"
+        },
+        {
+          "id": "out",
+          "input": [
+            "2"
+          ],
+          "component": "c_view"
+        }
+      ]
+    },
+    "c_source_0": {
+      "type": "FUNCTION",
+      "name": "S",
+      "body": "function () {\n    return (this.clock + 1) % 2\n}"
+    },
+    "c_source_1": {
+      "type": "FUNCTION",
+      "name": "R",
+      "body": "function () {\n    return (this.clock) % 2\n}"
+    },
+    "c_view": {
+      "type": "FUNCTION",
+      "name": "V(x)",
+      "body": "function (a) { return a;}"
+    },
+
+    "c_component_0": {
+      "type": "FUNCTION",
+      "name": "ƒ1(x)",
+      "body": "function (a, b) { \n    return a && b ? 0 : 1;\n}"
+    },
+    "c_component_1": {
+      "type": "FUNCTION",
+      "name": "ƒ2(x)",
+      "body": "function (a, b) { \n    return a && b ? 0 : 1;\n}"
+    },
+
+    "c_component": {
+      "type": "COMPONENT",
+      "name": "复合组件",
+      "input": [
+        "00",
+        "11"
+      ],
+      "output": "s",
+      "links": [
+        {
+          "id": "s",
+          "input": [
+            "r",
+            "00"
+          ],
+          "component": "c_component_0"
+        },
+        {
+          "id": "r",
+          "input": [
+            "s",
+            "11"
+          ],
+          "component": "c_component_1"
+        }
+      ]
+    }
+  }
+}

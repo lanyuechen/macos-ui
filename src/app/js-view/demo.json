@@ -2,7 +2,7 @@
   {
     "id": "6cde0dde7ae24491821e5bc5",
     "type": "FUNCTION",
-    "name": "ƒ(x)",
+    "name": "ƒ1(x)",
     "x": 518,
     "y": 118,
     "width": 50,
@@ -16,7 +16,7 @@
   {
     "id": "75dfe17da65449f1a7bf6153",
     "type": "FUNCTION",
-    "name": "ƒ(x)",
+    "name": "ƒ2(x)",
     "x": 518,
     "y": 233,
     "width": 50,
@@ -44,7 +44,7 @@
   {
     "id": "2ee3edf10e294b568217d0a3",
     "type": "FUNCTION",
-    "name": "ƒ(x)",
+    "name": "S1(x)",
     "x": 363,
     "y": 118,
     "width": 50,
@@ -55,7 +55,7 @@
   {
     "id": "895581b8635d41c5b39b3c7b",
     "type": "FUNCTION",
-    "name": "ƒ(x)",
+    "name": "S2(x)",
     "x": 364,
     "y": 232,
     "width": 50,
