@@ -37,10 +37,11 @@
 <script src="./index.js"></script>
 <script>
   function opencvIsReady() {
+    const { innerWidth, innerHeight } = window
     info.innerHTML = '';
     const fd = new FD(document.getElementById('container'), {
-      width: 620, 
-      height: 480
+      width: innerWidth, 
+      height: innerHeight
     });
     fd.startCamera();
   }
